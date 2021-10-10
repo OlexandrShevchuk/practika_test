@@ -9,7 +9,7 @@ require 'phpmailer/src/PHPMailer.php';
 
 $mail = new PHPMailer(true);
 $mail->CharSet = 'UTF-8';
-$mail->setLenguage('ua', 'phpmailer/Language');
+$mail->setLenguage('uk', 'phpmailer/Language');
 $mail->IsHTML(true);
 
 //От кого письмо
