@@ -1,46 +1,60 @@
+
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Excaption;
+// Файлы phpmailer
+require 'PHPMailer.min.php';
+require 'SMTP.php';
+require 'Exception.php';
+
+// Переменные, которые отправляет пользователь
+$name = $_POST['name-suport'];
+$email = $_POST['email-suport'];
+$message = $_POST['message-suport'];
 
 
-require 'phpmailer/src/Exception.php';
-require 'phpmailer/src/PHPMailer.php';
+// Формирование самого письма
+$title = "Заголовок письма";
+$body = "
+<h2>Новое письмо</h2>
+<b>Имя:</b> $name<br>
+<b>Почта:</b> $email<br><br>
+<b>Сообщение:</b><br>$message
+";
 
+// Настройки PHPMailer
+$mail = new PHPMailer\PHPMailer\PHPMailer();
+try {
+    $mail->isSMTP();   
+    $mail->CharSet = "UTF-8";
+    $mail->SMTPAuth   = true;
+    $mail->SMTPDebug = 2;
+    $mail->Debugoutput = function($str, $level) {$GLOBALS['status'][] = $str;};
 
-$mail = new PHPMailer(true);
-$mail->CharSet = 'UTF-8';
-$mail->setLenguage('uk', 'phpmailer/Language');
-$mail->IsHTML(true);
+    // Настройки вашей почты
+    $mail->Host       = 'ssl://smtp.gmail.com'; // SMTP сервера вашей почты
+    $mail->Username   = 'ovshevchuk.praktika'; // Логин на почте
+    $mail->Password   = 'Olexandr'; // Пароль на почте
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port       = 465;
+    $mail->setFrom('ovshevchuk.praktika@gmail.com', 'Suport'); // Адрес самой почты и имя отправителя
 
-//От кого письмо
-$mail->serFrom('olexandr.sheva@gmail.com', 'Oleksandr');
-//Кому письмо
-$mail->addAddress('ovshevchuk.fitu18@gmail.com');
-//Тело письма
-$mail->Subject = 'Hello';
+    // Получатель письма
+    $mail->addAddress('ovshevchuk.fitu18@kubg.edu.ua');  
 
-$body = '<h1>Email for support</h1>';
+// Отправка сообщения
+$mail->isHTML(true);
+$mail->Subject = $title;
+$mail->Body = $body;    
 
-if (trim(!empty($_POST['message']))){
-    $body.='<p><strong>Message: </strong>'.$_POST['message'].'</p>';
+// Проверяем отравленность сообщения
+if ($mail->send()) {$result = "success";} 
+else {$result = "error";}
+
+} catch (Exception $e) {
+    $result = "error";
+    $status = "Сообщение не было отправлено. Причина ошибки: {$mail->ErrorInfo}";
 }
-if (trim(!empty($_POST['email']))){
-    $body.='<p><strong>E-mail: </strong>'.$_POST['email'].'</p>';
-}
 
-$mail->Body = $body;
+// Отображение результата
+echo json_encode(["result" => $result,  "status" => $status]);
 
-//Отправление
-
-if (!$mail->send()){
-    $message = '_Error';
-}else{
-    $message = 'YES';
-}
-
-$response = ['message'=>$message];
-
-header('Content-type: application/json');
-echo json_encode($response);
-?>
-
+// "resultfile" => $rfile,
