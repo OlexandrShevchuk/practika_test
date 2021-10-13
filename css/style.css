@@ -366,6 +366,7 @@ body {
 }
 
 .redactor__add-zavd-div {
+  padding-left: 10px;
   flex: 1 1 auto;
 }
 
@@ -386,11 +387,21 @@ body {
 }
 
 .redactor__bilet {
-  padding-top: 50px;
   padding-bottom: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.redactor__form-zavd-bilet {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.zavd-div__value-zavd {
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .zavd-div__form {
@@ -404,6 +415,12 @@ body {
   width: 85%;
 }
 
+.zavd-div__first-row-button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
 .zavd-div__second-row {
   display: flex;
   flex-direction: column;
@@ -415,6 +432,7 @@ body {
 .zavd-div__div-textarea {
   background-color: white;
   border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 .zavd-div__textarea {
@@ -424,9 +442,22 @@ body {
 .zavd-div__add-zavd-button {
   margin-top: 3px;
   border-radius: 25px;
+  width: 50%;
 }
 
-.zavd-div__next-page-button {
+.zavd-div__remove-zavd-button {
+  margin-top: 3px;
+  border-radius: 25px;
+  width: 50%;
+}
+
+.zavd-div__add-zavd-to-array {
+  height: 40px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+.zavd-div__remove-zavd-to-array {
   height: 40px;
   border-radius: 15px;
   margin-bottom: 5px;
@@ -578,6 +609,13 @@ body {
 
 .pib-redactor__button {
   border-radius: 10px;
+}
+
+.pib-redactor__kilkist-zavdan {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 10px;
+  text-align: center;
 }
 
 ._check-spusok {

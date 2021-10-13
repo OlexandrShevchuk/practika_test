@@ -14,7 +14,7 @@ testWebP(function (support) {
     }
 });
 
-;
+;//Правильне додавання картинок вебП і тд
 function addText(beforeText, valueText, inerText, arterText) {
     if (typeof inerText.innerText !== 'undefined') {
         // IE8-
@@ -23,7 +23,52 @@ function addText(beforeText, valueText, inerText, arterText) {
         // Нормальные браузеры
         inerText.textContent = valueText.value;
     }
-};
+}
+
+function addTextNoneValue(beforeText, valueText, inerText, arterText) {
+    if (typeof inerText.innerText !== 'undefined') {
+        // IE8-
+        inerText.innerText = beforeText + valueText + arterText;
+    } else {
+        // Нормальные браузеры
+        inerText.textContent = valueText;
+    }
+}
+
+function buttonCheck(idElement, nameclass) {
+    let idE = document.getElementById(idElement);
+    if (idE.classList.contains(nameclass)) {
+        idE.classList.remove(nameclass);
+    } else {
+        idE.classList.add(nameclass);
+    }
+}
+
+function doop(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    alert('Ця функція ще допрацьовується))')
+}
+
+let lastRandomNumber = 0;
+
+function randomNumber() {
+    min = Math.ceil(0);
+    max = Math.floor(arrayzavd.length-1);
+    var getRandomNumber = Math.floor(Math.random() * (max - min) + min);
+    if(getRandomNumber != lastRandomNumber){
+        lastRandomNumber = getRandomNumber;
+    }else{
+        randomNumber();
+    }
+    return lastRandomNumber;
+};//Стандартні уніфіковані функції
+let arrayzavd = [];//Массив у який при натисканні кнопки заносяться завдання;
+let buttonFormZavd = [];//Массив у який додається значення при нажатті на кнопку + і віднімається при нажатті на -
+let arrayBilet=[];
+;//Масиви
+let defaultValueZavd = 2;//Кількість завдань в білеті
+
+;//Дефолтні значення
 // Отправка данных на сервер
 function send(event, php) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
@@ -106,17 +151,19 @@ function send(event, php) {
 
 
 
-};
-function buttonCheck(idElement,nameclass){
-    let idE = document.getElementById(idElement);
-    if (idE.classList.contains(nameclass)) {
-        idE.classList.remove(nameclass);
-    }else{
-        idE.classList.add(nameclass);
-    }
-    
+};//Скрипт для валідації та відправки форми підтримки на пошту
+//Перенос данних із поля вводу протоколу в док
+function addProtokol(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+
+    protokol = document.getElementById('protokol-redactor-textarea');
+
+    protokolBilet = document.getElementById('bilet__protokol');
+
+    addText('',protokol, protokolBilet,'');
 }
-;
+//=================================================================================
+//Перенос данних із поля вводу ПІБ в док
 function addPIb(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
 
@@ -134,16 +181,9 @@ function addPIb(event) {
     addText(' ', zavName, zavNameBilet, '');
     addText('', prep, prepBilet, ': ');
     addText(' ', prepName, prepNameBilet, '');
-};
-function addProtokol(event) {
-    event.preventDefault ? event.preventDefault() : event.returnValue = false;
-
-    protokol = document.getElementById('protokol-redactor-textarea');
-
-    protokolBilet = document.getElementById('bilet__protokol');
-
-    addText('',protokol, protokolBilet,'');
-};
+}
+//=================================================================================
+//Перенос данних із поля вводу данних про спеціал. і тд. в док
 function addNonespusok(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
 
@@ -171,8 +211,66 @@ function addNonespusok(event) {
     addText('ОКР: ',formaNavchannya, formaNavchannyaBilet,'');
     addText('Дисципліна: ', duscuplina, duscuplinaBilet, '');
 
-};
-function doop(event) {
+}
+//=================================================================================
+//Додання кількості завдань в білеті по дефолту 3
+let valueZavd = document.getElementById('zavd-div__value-zavd');
+valueZavd.addEventListener('input', valueZavdCheck);
+function valueZavdCheck(){
+    if (valueZavd.value > 0 && valueZavd.value%1===0 &&valueZavd.value!=='') {
+        defaultValueZavd = valueZavd.value;
+        // console.log(defaultValueZavd);
+    }
+    else{
+        defaultValueZavd = 3;
+        // console.log('false',defaultValueZavd);
+    }
+    return defaultValueZavd;
+}
+//=================================================================================
+;//Додавання в білет статичних данних
+let obshchaKilkistZavdanRedactor = document.getElementById('pib-redactor__kilkist-zavdan');
+
+function addZavdToArray(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    numberFormZavd = buttonFormZavd.length;
+    console.log(buttonFormZavd.length);
+    for (let i = 0; i <= length; i++) {
+        formZavd = document.getElementById(i).value;
+        arrayzavd.push(formZavd);
+        console.log('Масив з завданнями: ', arrayzavd);
+        alert('Всі написані вами завдання додано в массив з завданнями!');
+    }
+    addTextNoneValue('Кількість завдань в масиві на данний момент: ', arrayzavd.length, obshchaKilkistZavdanRedactor, '');
+
+}
+
+function removeZavdToArray(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    arrayzavd.splice(0, arrayzavd.length);
+    console.log('Масив з завданнями: ', arrayzavd);
+    alert("Массив з завданнями очищено");
+    addTextNoneValue('Кількість завдань в масиві на данний момент: ', arrayzavd.length, obshchaKilkistZavdanRedactor, '');
+    biletZavd = document.getElementById('bilet__task');
+    biletZavd.innerHTML = '';
+}
+
+
+function addZavdToBilet(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+
+    for (let i = 0; i < defaultValueZavd; i++) {
+        arrayBilet[i] = i + '. ' + arrayzavd[randomNumber()];
+    }
+    biletZavd = document.getElementById('bilet__task');
+
+
+    for (let i = 0; i < arrayBilet.length; i++) {
+        biletZavd.innerHTML += '<div>' + arrayBilet[i] + '<div>';
+        console.log(arrayBilet[i]);
+    }
+};//Додавання та видалення завдань в массиві
+function addFormZavd(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     alert('Ця функція ще допрацьовується))')
-};
+};//Робота з формою вводу завдань
