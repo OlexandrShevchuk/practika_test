@@ -40,6 +40,63 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "icons";
+  font-display: swap;
+  src: url("../fonts/icons.woff") format("woff"), url("../fonts/icons.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "icons";
+  src: url("../fonts/icons.woff") format("woff"), url("../fonts/icons.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^=_icon-],
+[class*=" _icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icons" !important;
+  font-style: normal;
+  font-weight: 500;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 30px;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+._icon-AddToBilet:before {
+  content: "\e900";
+}
+
+._icon-RemoveTask:before {
+  content: "\e901";
+}
+
+._icon-AddTask:before {
+  content: "\e902";
+}
+
+._icon-RemoveToBilet:before {
+  content: "\e903";
+}
+
+._icon-RatingTasks:before {
+  font-size: 35px;
+  font-weight: 600;
+  content: "\e904";
+}
+
+._icon-info:before {
+  content: "\e905";
+}
+
 .h {
   height: 70px;
 }
@@ -429,7 +486,7 @@ body {
   margin-right: 5px;
 }
 
-.zavd-div__div-textarea {
+.zavd-div__div-div-textarea {
   background-color: white;
   border-radius: 25px;
   margin-bottom: 10px;
@@ -469,7 +526,19 @@ body {
   margin-bottom: 5px;
 }
 
-.zavd-div__renove-last-zavd-button {
+.zavd-div__add-zavd-to-bilet-button {
+  height: 40px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+.zavd-div__remove-zavd-to-bilet-button {
+  height: 40px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+.zavd-div__add-rating-tasks {
   height: 40px;
   border-radius: 15px;
   margin-bottom: 5px;
@@ -611,11 +680,19 @@ body {
   border-radius: 10px;
 }
 
+.pib-redactor__button-info {
+  width: 15%;
+  height: 40px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
 .pib-redactor__kilkist-zavdan {
   margin-top: 10px;
   width: 100%;
   font-size: 10px;
   text-align: center;
+  margin-bottom: 5px;
 }
 
 ._check-spusok {
@@ -742,6 +819,69 @@ body {
   flex-direction: row;
 }
 
+.info-redactor {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.info-redactor__modal {
+  display: none;
+  /* Модальное окно скрыто по умолчанию */
+  position: fixed;
+  /* Фикс. Позиция на главной странице */
+  z-index: 1;
+  /* Отображение на заднем плане */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* 100% по ширине */
+  height: 100%;
+  /* 100% по высоте */
+  overflow: auto;
+  /* Включить прокрутку, если необходимо */
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.content-modal {
+  background-color: #fefefe;
+  margin: 15% auto;
+  /* 15% от верха и центрировано */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Может быть больше и меньше, зависит от размеров экрана */
+  box-shadow: 5px 10px 5px #666;
+  /*Добавить тень */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-modal__close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  padding-left: 98%;
+}
+
+.content-modal__title {
+  font-size: 25px;
+  text-align: center;
+}
+
+.content-modal__op {
+  margin-top: 5px;
+  font-size: 20px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.content-modal__close:hover,
+.content-modal__close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media (max-width: 1270px) {
   .zavd__text {
     margin-bottom: calc(2px + 3 * ((100vw - 320px) / 950));
@@ -773,23 +913,4 @@ body {
   .c {
     display: none;
   }
-}
-@supports (-webkit-appearance:none){
-
-}
-
- @media (max-width: 1270px){
-
-@supports (-webkit-appearance:none){
-
-}
-
-}
-
- @media (max-width: 1185px){
-
-@supports (-webkit-appearance:none){
-
-}
-
 }
