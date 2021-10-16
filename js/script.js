@@ -24,6 +24,19 @@ function addText(beforeText, valueText, inerText, arterText) {
     }
 }
 
+function addTextofClassname(beforeText, valueText, inerText, arterText) {
+    for (let i = 0; i < inerText.length; i++) {
+        if (typeof inerText[i].innerText !== 'undefined') {
+            // IE8-
+            inerText[i].innerText = beforeText + valueText.value + arterText;
+        } else {
+            // Нормальные браузеры
+            inerText[i].textContent = valueText.value;
+        }
+
+    }
+}
+
 function addTextNoneValue(beforeText, valueText, inerText, arterText) {
     if (typeof inerText.innerText !== 'undefined') {
         // IE8-
@@ -48,20 +61,11 @@ function doop(event) {
     alert('Ця функція ще допрацьовується))')
 }
 
-let lastRandomNumber = 0;
 
-function randomNumber() {
-    min = Math.ceil(0);
-    max = Math.floor(arrayzavd.length - 1);
-    var getRandomNumber = Math.floor(Math.random() * (max - min + 1) + min);
-    if (getRandomNumber != lastRandomNumber) {
-        lastRandomNumber = getRandomNumber;
-    } else {
-        randomNumber();
-    }
-    return lastRandomNumber;
+function randomNumber(array) {
+    for (var j, x, i = array.length; i; j = parseInt(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+    return array;
 }
-
 
 function test(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
@@ -169,9 +173,9 @@ function addProtokol(event) {
 
     protokol = document.getElementById('protokol-redactor-textarea');
 
-    protokolBilet = document.getElementById('bilet__protokol');
+    protokolBilet = document.getElementsByClassName('bilet__protokol');
 
-    addText('',protokol, protokolBilet,'');
+    addTextofClassname('', protokol, protokolBilet, '');
 }
 //=================================================================================
 //Перенос данних із поля вводу ПІБ в док
@@ -183,15 +187,15 @@ function addPIb(event) {
     prep = document.getElementById('pib-redactor__prep');
     prepName = document.getElementById('pib-redactor__prep-pib');
 
-    zavBilet = document.getElementById('bilet__zavkaf');
-    zavNameBilet = document.getElementById('bilet__zavkafname');
-    prepBilet = document.getElementById('bilet__prepod');
-    prepNameBilet = document.getElementById('bilet__prepodname');
+    zavBilet = document.getElementsByClassName('bilet__zavkaf');
+    zavNameBilet = document.getElementsByClassName('bilet__zavkafname');
+    prepBilet = document.getElementsByClassName('bilet__prepod');
+    prepNameBilet = document.getElementsByClassName('bilet__prepodname');
 
-    addText('', zav, zavBilet, ': ');
-    addText(' ', zavName, zavNameBilet, '');
-    addText('', prep, prepBilet, ': ');
-    addText(' ', prepName, prepNameBilet, '');
+    addTextofClassname('', zav, zavBilet, ': ');
+    addTextofClassname(' ', zavName, zavNameBilet, '');
+    addTextofClassname('', prep, prepBilet, ': ');
+    addTextofClassname(' ', prepName, prepNameBilet, '');
 }
 //=================================================================================
 //Перенос данних із поля вводу данних про спеціал. і тд. в док
@@ -206,40 +210,64 @@ function addNonespusok(event) {
     formaNavchannya = document.getElementById('nonespusok-shablon__input-forma-navchannya');
     duscuplina = document.getElementById('nonespusok-shablon__input-duscuplina');
 
-    universityBilet = document.getElementById('bilet__university');
-    fakultetBilet = document.getElementById('bilet__fakultet');
-    specialnistBilet = document.getElementById('bilet__specialnist');
-    specializaciyaBilet = document.getElementById('bilet__specializaciya');
-    osvProgBilet = document.getElementById('bilet__osvprog');
-    formaNavchannyaBilet = document.getElementById('bilet__okr');
-    duscuplinaBilet = document.getElementById('bilet__duscuplina');
 
-    addText('',university,universityBilet,'');
-    addText('',fakultet,fakultetBilet,'');
-    addText('Спеціальність: ', specialnist, specialnistBilet, '');
-    addText('Спеціалізація: ', specializaciya, specializaciyaBilet, '');
-    addText('Освітня програма: ', osvProg, osvProgBilet, '');
-    addText('ОКР: ',formaNavchannya, formaNavchannyaBilet,'');
-    addText('Дисципліна: ', duscuplina, duscuplinaBilet, '');
+
+    universityBilet = document.getElementsByClassName('bilet__university');
+    fakultetBilet = document.getElementsByClassName('bilet__fakultet');
+    specialnistBilet = document.getElementsByClassName('bilet__specialnist');
+    specializaciyaBilet = document.getElementsByClassName('bilet__specializaciya');
+    osvProgBilet = document.getElementsByClassName('bilet__osvprog');
+    formaNavchannyaBilet = document.getElementsByClassName('bilet__okr');
+    duscuplinaBilet = document.getElementsByClassName('bilet__duscuplina');
+
+
+    addTextofClassname('', university, universityBilet, '');
+    addTextofClassname('', fakultet, fakultetBilet, '');
+    addTextofClassname('Спеціальність: ', specialnist, specialnistBilet, '');
+    addTextofClassname('Спеціалізація: ', specializaciya, specializaciyaBilet, '');
+    addTextofClassname('Освітня програма: ', osvProg, osvProgBilet, '');
+    addTextofClassname('ОКР: ', formaNavchannya, formaNavchannyaBilet, '');
+    addTextofClassname('Дисципліна: ', duscuplina, duscuplinaBilet, '');
 
 }
 //=================================================================================
 //Додання кількості завдань в білеті по дефолту 3
 let valueZavd = document.getElementById('zavd-div__value-zavd');
 valueZavd.addEventListener('input', valueZavdCheck);
-function valueZavdCheck(){
-    if (valueZavd.value > 0 && valueZavd.value%1===0 &&valueZavd.value!=='') {
+
+function valueZavdCheck() {
+    if (valueZavd.value > 0 && valueZavd.value % 1 === 0 && valueZavd.value !== '') {
         defaultValueZavd = valueZavd.value;
         // console.log(defaultValueZavd);
-    }
-    else{
+    } else {
         defaultValueZavd = 3;
         // console.log('false',defaultValueZavd);
     }
     return defaultValueZavd;
 }
 //=================================================================================
-;//Додавання в білет статичних данних
+function addBilet(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv');
+    $biletForm = document.getElementById('redactor__bilet-shablon');
+    $bilet = document.getElementsByClassName('bilet');
+    biletNumber = document.getElementsByClassName('bilet__number');
+    if (inputAddBilet.value > 1 && inputAddBilet.value % 1 === 0 && inputAddBilet.value !== '') {
+        alert(inputAddBilet.value)
+        for (let i = 2; i <= inputAddBilet.value; i++) {
+            $($bilet[0]).clone().appendTo($biletForm);
+            biletNumber[i-1].innerText ='Білет №'+i; 
+        }
+        // console.log(biletNumber[0].innerText);
+        
+
+    } else if (inputAddBilet.value === '1') {
+        alert('На сторінці і так показаний один білет')
+    } else {
+        alert('Кількість білетів не може бути менше одного')
+    }
+
+};//Додавання в білет статичних данних
 let obshchaKilkistZavdanRedactor = document.getElementById('pib-redactor__kilkist-zavdan');
 
 function addZavdToArray(event) {
@@ -262,8 +290,15 @@ function removeZavdToArray(event) {
     console.log('Масив з завданнями: ', arrayzavd);
     alert("Массив з завданнями очищено");
     addTextNoneValue('Кількість завдань в масиві на данний момент: ', arrayzavd.length, obshchaKilkistZavdanRedactor, '');
-    biletZavd = document.getElementById('bilet__task');
-    biletZavd.innerHTML = '';
+    biletZavd = document.getElementsByClassName('bilet__task');
+    inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv').value;
+    if (inputAddBilet === '') {
+        biletZavd[0].innerText = '';
+    } else {
+        for (let i = 1; i <= inputAddBilet; i++) {
+            biletZavd[i - 1].innerText = '';
+        }
+    }
 }
 
 function addZavdToBilet(event) {
@@ -271,17 +306,37 @@ function addZavdToBilet(event) {
     if (arrayzavd.length === 0) {
         alert('Упс, сталась помилка. Ви не додали свої завдання в масив')
     } else {
-        for (let i = 0; i < defaultValueZavd; i++) {
-            arrayBilet[i] = i + 1 + '. ' + arrayzavd[randomNumber()];
+        biletZavd = document.getElementsByClassName('bilet__task');
+        inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv').value;
+        let arrayNumber = [];
+        for (let i = 0; i < arrayzavd.length; i++) {
+            arrayNumber.push(i);
         }
-        biletZavd = document.getElementById('bilet__task');
-        for (let i = 0; i < arrayBilet.length; i++) {
-            biletZavd.innerHTML += '<div>' + arrayBilet[i] + '<div>';
-            console.log(arrayBilet[i]);
+        var randomArray = randomNumber(arrayNumber);
+        for (let i = 0; i < defaultValueZavd; i++) {
+            arrayBilet[i] = arrayzavd[randomArray[i]];
+        }
+        if (inputAddBilet === '') {
+            for (let i = 0; i < arrayBilet.length; i++) {
+                biletZavd[0].innerHTML += '<div>' + (i + 1) + '. ' + arrayBilet[i] + '<div>';
+            }
+        } else {
+
+            for (let i = 0; i < inputAddBilet; i++) {
+                let arrayNumber = [];
+                for (let i = 0; i < arrayzavd.length; i++) {
+                    arrayNumber.push(i);
+                }
+                var randomArray = randomNumber(arrayNumber);
+                for (let i = 0; i < defaultValueZavd; i++) {
+                    arrayBilet[i] = arrayzavd[randomArray[i]];
+                }
+                for (let j = 0; j < arrayBilet.length; j++) {
+                    biletZavd[i].innerHTML += '<div>' + (j + 1) + '. ' + arrayBilet[j] + '<div>';
+                }
+            }
         }
     }
-
-
 }
 
 function removeZavdToBilet(event) {
@@ -308,8 +363,8 @@ function addFormZavd(event) {
     console.log(arrayButtonAddCheck)
     for (let i = 1; i <= arrayButtonAddCheck.length; i++) {
         if (document.getElementById(i) === null) {
-            var $obj = $("<div class='zavd-div__div-div-textarea'><textarea name='redactor-zavd' id=" + i + 
-            " cols='30' rows='10' class='zavd-div__textarea' placeholder='    Впишіть ваше завдання'></textarea></div>");
+            var $obj = $("<div class='zavd-div__div-div-textarea'><textarea name='redactor-zavd' id=" + i +
+                " cols='30' rows='10' class='zavd-div__textarea' placeholder='    Впишіть ваше завдання'></textarea></div>");
             $obj.appendTo(divForm);
         }
     }
