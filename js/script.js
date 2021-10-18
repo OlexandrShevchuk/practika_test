@@ -14,6 +14,7 @@ testWebP(function (support) {
     }
 });
 ;//Правильне додавання картинок вебП і тд
+//Функція, яка додає текст в задане місце(найкраще працює по ід)
 function addText(beforeText, valueText, inerText, arterText) {
     if (typeof inerText.innerText !== 'undefined') {
         // IE8-
@@ -23,7 +24,7 @@ function addText(beforeText, valueText, inerText, arterText) {
         inerText.textContent = valueText.value;
     }
 }
-
+//Функція, яка додає текст в задане місце(найкраще працює по класнейму)
 function addTextofClassname(beforeText, valueText, inerText, arterText) {
     for (let i = 0; i < inerText.length; i++) {
         if (typeof inerText[i].innerText !== 'undefined') {
@@ -36,7 +37,7 @@ function addTextofClassname(beforeText, valueText, inerText, arterText) {
 
     }
 }
-
+//Функція, яка додає текст в задане місце(без значення value у функції)
 function addTextNoneValue(beforeText, valueText, inerText, arterText) {
     if (typeof inerText.innerText !== 'undefined') {
         // IE8-
@@ -46,7 +47,7 @@ function addTextNoneValue(beforeText, valueText, inerText, arterText) {
         inerText.textContent = valueText;
     }
 }
-
+//Функція, яка додає та віднімає класи(використовується для відкриття/схову полів з університетом,...)
 function buttonCheck(idElement, nameclass) {
     let idE = document.getElementById(idElement);
     if (idE.classList.contains(nameclass)) {
@@ -55,33 +56,62 @@ function buttonCheck(idElement, nameclass) {
         idE.classList.add(nameclass);
     }
 }
-
+//Сповіщення про доопрацювання функції
 function doop(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     alert('Ця функція ще допрацьовується))')
 }
-
-
+//повертає массив з перемішаними числами
 function randomNumber(array) {
     for (var j, x, i = array.length; i; j = parseInt(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
     return array;
 }
+//Функція для модальних вікон
+function modalWindows(modal, span) {
+    // Когда пользователь нажимает кнопку, открывается pop-up форма 
+    modal.style.display = 'block';
+    // Когда пользователь нажимает кнопку (x) <span>, закрывается окно формы
+    span.onclick = function () {
+        modal.style.display = 'none';
+    }
+    // Когда пользователь нажимает в любое место вне формы, закрыть окно формы
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
+//Внесення запитань в массив
+function addZavdToArray() {
+    numberFormZavd = buttonFormZavd.length;
+    // console.log(buttonFormZavd.length);
+    for (let i = 0; i <= arrayButtonAddCheck.length; i++) {
+        formZavd = document.getElementById(i).value;
+        arrayzavd.push(formZavd);
+    }
+    // console.log('Масив з завданнями: ', arrayzavd);
+    addTextNoneValue("Кількість завдань в пам'яті на данний момент: ", arrayzavd.length, obshchaKilkistZavdanRedactor, '');
 
-function test(event) {
-    event.preventDefault ? event.preventDefault() : event.returnValue = false;
-    alert(rando(5));
+}
+//Видалення запитань із массиву
+function removeZavdToArray() {
+    arrayzavd.splice(0, arrayzavd.length);
+    // console.log('Масив з завданнями: ', arrayzavd);
+    addTextNoneValue("Кількість завдань в пам'яті на данний момент: ", arrayzavd.length, obshchaKilkistZavdanRedactor, '');
+    biletZavd = document.getElementsByClassName('bilet__task');
+    inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv').value;
+    
 };//Стандартні уніфіковані функції
 let arrayzavd = [];//Массив у який при натисканні кнопки заносяться завдання;
 let buttonFormZavd = [];//Массив у який додається значення при нажатті на кнопку + і віднімається при нажатті на -
 let arrayBilet=[];//Массив у якому зберігаються завдання які потім будуть у білеті
 let arrayButtonAddCheck=[];//Лічильник натискань на кнопку+
-let arrayRaitings=[];//Массив з оцінками складності завдань
 //массиви у які записуються відсортовані по рівню складності завдання
 let arrayLevelOne=[];
 let arrayLevelTwo=[];
 let arrayLevelThree=[];
 ;//Масиви
-let defaultValueZavd = 2;//Кількість завдань в білеті
+let defaultValueZavd = 2;//Кількість завдань в білеті по дефолту
 
 ;//Дефолтні значення
 // Отправка данных на сервер
@@ -234,7 +264,7 @@ function addNonespusok(event) {
 //Додання кількості завдань в білеті по дефолту 3
 let valueZavd = document.getElementById('zavd-div__value-zavd');
 valueZavd.addEventListener('input', valueZavdCheck);
-
+//функція валідації поля над полем для вводу запитань, встановлення значення по-дефолту
 function valueZavdCheck() {
     if (valueZavd.value > 0 && valueZavd.value % 1 === 0 && valueZavd.value !== '') {
         defaultValueZavd = valueZavd.value;
@@ -246,6 +276,7 @@ function valueZavdCheck() {
     return defaultValueZavd;
 }
 //=================================================================================
+//Функція додавання білету
 function addBilet(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv');
@@ -268,41 +299,14 @@ function addBilet(event) {
     }
 
 };//Додавання в білет статичних данних
+//Кількість завданнь пам'яті в данний момент
 let obshchaKilkistZavdanRedactor = document.getElementById('pib-redactor__kilkist-zavdan');
 
-function addZavdToArray(event) {
-    event.preventDefault ? event.preventDefault() : event.returnValue = false;
-    numberFormZavd = buttonFormZavd.length;
-    console.log(buttonFormZavd.length);
-    for (let i = 0; i <= arrayButtonAddCheck.length; i++) {
-        formZavd = document.getElementById(i).value;
-        arrayzavd.push(formZavd);
-    }
-    console.log('Масив з завданнями: ', arrayzavd);
-    alert('Всі написані вами завдання додано в массив з завданнями!');
-    addTextNoneValue('Кількість завдань в масиві на данний момент: ', arrayzavd.length, obshchaKilkistZavdanRedactor, '');
 
-}
-
-function removeZavdToArray(event) {
-    event.preventDefault ? event.preventDefault() : event.returnValue = false;
-    arrayzavd.splice(0, arrayzavd.length);
-    console.log('Масив з завданнями: ', arrayzavd);
-    alert("Массив з завданнями очищено");
-    addTextNoneValue('Кількість завдань в масиві на данний момент: ', arrayzavd.length, obshchaKilkistZavdanRedactor, '');
-    biletZavd = document.getElementsByClassName('bilet__task');
-    inputAddBilet = document.getElementById('redactor__input-kilkist-biletiv').value;
-    if (inputAddBilet === '') {
-        biletZavd[0].innerText = '';
-    } else {
-        for (let i = 1; i <= inputAddBilet; i++) {
-            biletZavd[i - 1].innerText = '';
-        }
-    }
-}
-
+//додавання однорівневих завдань в білет(шаблон)
 function addZavdToBilet(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    addZavdToArray();
     if (arrayzavd.length === 0) {
         alert('Упс, сталась помилка. Ви не додали свої завдання в масив')
     } else {
@@ -318,7 +322,7 @@ function addZavdToBilet(event) {
         }
         if (inputAddBilet === '') {
             for (let i = 0; i < arrayBilet.length; i++) {
-                biletZavd[0].innerHTML += '<div>' + (i + 1) + '. ' + arrayBilet[i] + '<div>';
+                biletZavd[0].innerHTML += '<div>' + (i + 1) + '. ' + arrayBilet[i] + '</div>';
             }
         } else {
 
@@ -328,39 +332,37 @@ function addZavdToBilet(event) {
                     arrayNumber.push(i);
                 }
                 var randomArray = randomNumber(arrayNumber);
-                for (let i = 0; i < defaultValueZavd; i++) {
-                    arrayBilet[i] = arrayzavd[randomArray[i]];
+                for (let j = 0; j < defaultValueZavd; j++) {
+                    arrayBilet[j] = arrayzavd[randomArray[j]];
                 }
                 for (let j = 0; j < arrayBilet.length; j++) {
-                    biletZavd[i].innerHTML += '<div>' + (j + 1) + '. ' + arrayBilet[j] + '<div>';
+                    biletZavd[i].innerHTML += '<div>' + (j + 1) + '. ' + arrayBilet[j] + '</div>';
                 }
             }
         }
     }
 }
-
+//видалення любих завдань з білету(шаблон)
 function removeZavdToBilet(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
-    biletZavd = document.getElementById('bilet__task');
-    biletZavd.innerHTML = '';
-    alert('Шаблон очищено!')
-}
-
-function addRatingTasks(event) {
-    event.preventDefault ? event.preventDefault() : event.returnValue = false;
-    for (let i = 0; i < arrayzavd.length; i++) {
-        arrayRaitings[i] = '1';
+    removeZavdToArray();
+    biletZavd = document.getElementsByClassName('bilet__task');
+    if (inputAddBilet === '') {
+        biletZavd[0].innerText = '';
+    } else {
+        for (let i = 1; i <= inputAddBilet; i++) {
+            biletZavd[i - 1].innerText = '';
+        }
     }
-    console.log(arrayRaitings);
-
+    alert('Шаблон(и) очищено!')
 }
-
+//Додавання полів для вводу завдання
 function addFormZavd(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     divForm = document.getElementById('zavd-div__div-textarea');
     form = document.getElementById('0');
     arrayButtonAddCheck.push(arrayButtonAddCheck.length + 1);
-    console.log(arrayButtonAddCheck)
+    // console.log(arrayButtonAddCheck)
     for (let i = 1; i <= arrayButtonAddCheck.length; i++) {
         if (document.getElementById(i) === null) {
             var $obj = $("<div class='zavd-div__div-div-textarea'><textarea name='redactor-zavd' id=" + i +
@@ -369,31 +371,133 @@ function addFormZavd(event) {
         }
     }
 }
-
+//видалення полів для вводу завдання
 function removeFormZavd(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     divForm = document.getElementById('zavd-div__div-textarea');
     document.getElementById(arrayButtonAddCheck.length).parentElement.remove();
     arrayButtonAddCheck.pop();
-    console.log(arrayButtonAddCheck);
+    // console.log(arrayButtonAddCheck);
 
-};//Додавання та видалення завдань в массиві
+}
+
+;//Додавання та видалення завдань в массиві
+//Додавання модального вікна інфо
 function modalInfo(event) {
     event.preventDefault ? event.preventDefault() : event.returnValue = false;
     // Объявить переменную модального окна в текущей области видимости
     var modal = document.getElementById('modalInfo');
     // Получение элемента <span>, который закрывает модальное окно
     var span = document.getElementsByClassName('content-modal__close')[0];
-    // Когда пользователь нажимает кнопку, открывается pop-up форма 
-    modal.style.display = 'block';
-    // Когда пользователь нажимает кнопку (x) <span>, закрывается окно формы
-    span.onclick = function () {
-        modal.style.display = 'none';
+    modalWindows(modal, span);
+}
+//Додавання модального вікна з рейтингом
+function addRating(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    addZavdToArray();
+    // Объявить переменную модального окна в текущей области видимости
+    var modal = document.getElementById('rating__modal');
+    // Получение элемента <span>, который закрывает модальное окно
+    var span = document.getElementsByClassName('content-modal__close-rating')[0];
+
+    modalWindows(modal, span);
+    //створення таблиці
+    var table = document.getElementById('rating__table');
+    table.innerHTML = '';
+    for (let i = 0; i < arrayzavd.length; i++) {
+        table.innerHTML += "<table class='table-rating__table'><tr class='table-rating__row'><td class='table-rating__column first-column count" + i + "'>" +
+            arrayzavd[i] +
+            "</td><td class='table-rating__column second-column'>" +
+            "<div class='table-rating__column-rating'><div class='table-rating__column-rating-text'>Складність завдання</div>" +
+            "<div class='table-rating__column-rating-count'><input type='radio' class='one' name='rating-radio" + (i + 1) + "'>1" +
+            "<input type='radio' class='two' name='rating-radio" + (i + 1) + "'>2<input type='radio' class='three' name='rating-radio" + (i + 1) + "'>3 </div></div>" +
+            "</td></tr></table>";
     }
-    // Когда пользователь нажимает в любое место вне формы, закрыть окно формы
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
+}
+//Функція збору данних з полів в 3 массиви(по складності), перемішування данних в кожному із масивів
+//об'єднання всіх масивів в один зберігаючи послідовність рівнів
+//вивід у шаблон
+function ratingCount(event) {
+    event.preventDefault ? event.preventDefault() : event.returnValue = false;
+    var array = [];
+    for (let i = 0; i < arrayzavd.length; i++) {
+        var a = document.getElementsByClassName('count' + i)[0];
+        var checkOne = document.getElementsByName('rating-radio' + (i + 1));
+        for (var j = 0; j < checkOne.length; j++) {
+            if (checkOne[j].checked) {
+                array[i] = (j + 1);
+            }
+        }
+        if (array[i] === 1) {
+            arrayLevelOne.push(a.textContent)
+        } else if (array[i] === 2) {
+            arrayLevelTwo.push(a.textContent)
+        } else if (array[i] === 3) {
+            arrayLevelThree.push(a.textContent)
         }
     }
+
+    one = document.getElementById('content-modal__one-level');
+    two = document.getElementById('content-modal__two-level');
+    three = document.getElementById('content-modal__three-level');
+
+
+
+    
+    biletZavd = document.getElementsByClassName('bilet__task');
+    inputAddBillet = document.getElementById('redactor__input-kilkist-biletiv').value;
+
+    if (inputAddBillet==='') {
+        var newArray = arrayZavdforLevel(arrayLevelOne, one.value,arrayLevelTwo, two.value,arrayLevelThree, three.value);
+        for (let i = 0; i < newArray.length; i++) {
+            biletZavd[0].innerHTML += '<div>' + (i + 1) + '. ' + newArray[i] + '</div>';
+        }
+    }else{
+        for (let i = 0; i < inputAddBillet; i++) {
+            var newArray = arrayZavdforLevel(arrayLevelOne, one.value,arrayLevelTwo, two.value,arrayLevelThree, three.value);
+            for (let j = 0; j < newArray.length; j++) {
+                biletZavd[i].innerHTML += '<div>' + (j + 1) + '. ' + newArray[j] + '</div>';
+            }
+            
+        }
+    }
+
+
+    arrayLevelOne = [];
+    arrayLevelTwo = [];
+    arrayLevelThree = [];
+    removeZavdToArray();
+}
+//Функція збору 3 масивів в 1 із збереженням послідовності
+function arrayZavdforLevel(one, countOne, two, countTwo, three, countThree) {
+    if (countOne > 0 && countOne % 1 === 0 || countTwo > 0 && countTwo % 1 === 0 || countThree > 0 && countThree % 1 === 0) {
+        var newOne = randomArray(one);
+        var newTwo = randomArray(two);
+        var newThree = randomArray(three);
+        var newArray = [];
+        for (let i = 0; i < countOne; i++) {
+            newArray.push(newOne[i])
+        }
+        for (let i = 0; i < countTwo; i++) {
+            newArray.push(newTwo[i])
+        }
+        for (let i = 0; i < countThree; i++) {
+            newArray.push(newThree[i])
+        }
+        
+        return newArray;
+    }
+}
+//Функція перемішування масиву
+function randomArray(array) {
+    var arrayNumber = [];
+    var newArray = [];
+    for (let j = 0; j < array.length; j++) {
+        arrayNumber[j] = j;
+    }
+    var randomArrayNumber = randomNumber(arrayNumber);
+    for (let j = 0; j < array.length; j++) {
+        newArray[j] = array[randomArrayNumber[j]];
+    }
+    return newArray;
 };//Модальні вікна
