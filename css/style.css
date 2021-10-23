@@ -97,6 +97,10 @@
   content: "\e905";
 }
 
+._icon-Download:before {
+  content: "\e906";
+}
+
 .h {
   height: 70px;
 }
@@ -555,6 +559,12 @@ body {
 }
 
 .zavd-div__add-rating-tasks {
+  height: 40px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+.zavd-div__download-bilet {
   height: 40px;
   border-radius: 15px;
   margin-bottom: 5px;
