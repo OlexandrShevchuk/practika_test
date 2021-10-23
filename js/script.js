@@ -501,3 +501,121 @@ function randomArray(array) {
     }
     return newArray;
 };//Модальні вікна
+//Функція для завантаження файлу із серверу до пк користувача
+window.downloadFile = function (sUrl) {
+
+    //iOS devices do not support downloading. We have to inform user about this.
+    if (/(iP)/g.test(navigator.userAgent)) {
+        alert('Your device does not support files downloading. Please try again in desktop browser.');
+        return false;
+    }
+
+    //If in Chrome or Safari - download via virtual link click
+    if (window.downloadFile.isChrome || window.downloadFile.isSafari) {
+        //Creating new link node.
+        var link = document.createElement('a');
+        link.href = sUrl;
+
+        if (link.download !== undefined) {
+            //Set HTML5 download attribute. This will prevent file from opening if supported.
+            var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+            link.download = fileName;
+        }
+
+        //Dispatching click event.
+        if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            link.dispatchEvent(e);
+            return true;
+        }
+    }
+
+    // Force file download (whether supported by server).
+    if (sUrl.indexOf('?') === -1) {
+        sUrl += '?download';
+    }
+
+    window.open(sUrl, '_self');
+    return true;
+}
+
+window.downloadFile.isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+window.downloadFile.isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+
+
+
+
+
+
+function downloadBilet(event) {
+    event.preventDefault();
+    //Збір данних з потрібних полів
+    let university = document.getElementsByClassName('bilet__university')[0].innerText;
+    let fakultet = document.getElementsByClassName('bilet__fakultet')[0].innerText;
+    let specialnist = document.getElementsByClassName('bilet__specialnist')[0].innerText.substr(15);
+    let specializaciya = document.getElementsByClassName('bilet__specializaciya')[0].innerText.substr(15);
+    let osvprog = document.getElementsByClassName('bilet__osvprog')[0].innerText.substr(18);
+    let okr = document.getElementsByClassName('bilet__okr')[0].innerText.substr(5);
+    let duscuplina = document.getElementsByClassName('bilet__duscuplina')[0].innerText.substr(12);
+    let protokol = document.getElementsByClassName('bilet__protokol')[0].innerText;
+    let zavkaf = document.getElementsByClassName('bilet__zavkaf')[0].innerText;
+    let zavkafname = document.getElementsByClassName('bilet__zavkafname')[0].innerText;
+    let prepod = document.getElementsByClassName('bilet__prepod')[0].innerText;
+    let prepodname = document.getElementsByClassName('bilet__prepodname')[0].innerText;
+
+    let number = document.getElementsByClassName('bilet__number');
+    let numberArray =[];
+    for (let i = 0; i<number.length;i++){
+        numberArray[i]= number[i].innerText;
+    }
+    let task = document.getElementsByClassName('bilet__task');
+    let taskArray=[];
+    for (let i = 0; i<task.length;i++){
+        taskArray[i]= task[i].innerText.split('\n');
+    }
+    // console.log(taskArray)
+
+    //console.log(
+        // university,
+        // fakultet,
+        // specialnist.length,
+        // specializaciya.length,
+        // osvprog.length,
+        // okr.length,
+        // duscuplina.length,
+        // numberArray,
+        // task,
+        // taskArray,
+        // protokol,
+        // zavkaf,
+        // zavkafname,
+        // prepod,
+        // prepodname,
+    //);
+
+
+
+
+    // Функція, яка відсилає данні у файл php
+        $.post('js/downloadBilet.php', {
+                'university': university,
+                'fakultet': fakultet,
+                'specialnist': specialnist,
+                'specializaciya': specializaciya,
+                'osvprog': osvprog,
+                'okr': okr,
+                'duscuplina': duscuplina,
+                'number': numberArray,
+                'task': taskArray,
+                'protokol': protokol,
+                'zavkaf': zavkaf,
+                'zavkafname': zavkafname,
+                'prepod': prepod,
+                'prepodname': prepodname
+            },
+            function (data) {
+                // console.log(data)
+                downloadFile(data);
+            });
+};//Скачування шаблону з сайту
